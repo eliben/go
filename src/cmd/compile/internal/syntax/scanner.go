@@ -389,12 +389,13 @@ func hash(s []byte) uint {
 	return (uint(s[0])<<4 ^ uint(s[1]) + uint(len(s))) & uint(len(keywordMap)-1)
 }
 
-var keywordMap [1 << 6]token // size must be power of two
+var keywordMap [1 << 7]token // size must be power of two
 
 func init() {
 	// populate keywordMap
 	for tok := _Break; tok <= _Var; tok++ {
 		h := hash([]byte(tok.String()))
+		//fmt.Println(tok, tok.String(), []byte(tok.String()), h)
 		if keywordMap[h] != 0 {
 			panic("imperfect hash")
 		}

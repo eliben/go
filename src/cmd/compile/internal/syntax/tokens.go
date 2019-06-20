@@ -50,6 +50,7 @@ const (
 	_Else        // else
 	_Fallthrough // fallthrough
 	_For         // for
+	_Until       // until
 	_Func        // func
 	_Go          // go
 	_Goto        // goto
