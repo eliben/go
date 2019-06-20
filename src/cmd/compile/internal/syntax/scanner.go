@@ -395,7 +395,6 @@ func init() {
 	// populate keywordMap
 	for tok := _Break; tok <= _Var; tok++ {
 		h := hash([]byte(tok.String()))
-		//fmt.Println(tok, tok.String(), []byte(tok.String()), h)
 		if keywordMap[h] != 0 {
 			panic("imperfect hash")
 		}
