@@ -1159,8 +1159,8 @@ func (p *noder) forStmt(stmt *syntax.ForStmt) *Node {
 	return n
 }
 
-// untilStmt converts the concrete syntax tree node UntilStmt into an AST
-// node.
+//untilStmt converts the concrete syntax tree node UntilStmt into an AST
+//node.
 func (p *noder) untilStmt(stmt *syntax.UntilStmt) *Node {
 	p.openScope(stmt.Pos())
 	var n *Node
