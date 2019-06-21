@@ -534,6 +534,9 @@ func Main(archInit func(*Arch)) {
 	timings.Start("fe", "typecheck", "top1")
 	for i := 0; i < len(xtop); i++ {
 		n := xtop[i]
+		if len(os.Getenv("XDBG")) > 0 {
+			fmt.Fprintf(os.Stderr, "n before typecheck:\n%+v\n", n)
+		}
 		if op := n.Op; op != ODCL && op != OAS && op != OAS2 && (op != ODCLTYPE || !n.Left.Name.Param.Alias) {
 			xtop[i] = typecheck(n, ctxStmt)
 		}
