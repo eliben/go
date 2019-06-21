@@ -1980,6 +1980,21 @@ func typecheck1(n *Node, top int) (res *Node) {
 		typecheckslice(n.Nbody.Slice(), ctxStmt)
 		decldepth--
 
+	case OUNTIL:
+		ok |= ctxStmt
+		typecheckslice(n.Ninit.Slice(), ctxStmt)
+		decldepth++
+		n.Left = typecheck(n.Left, ctxExpr)
+		n.Left = defaultlit(n.Left, nil)
+		if n.Left != nil {
+			t := n.Left.Type
+			if t != nil && !t.IsBoolean() {
+				yyerror("non-bool %L used as for condition", n.Left)
+			}
+		}
+		typecheckslice(n.Nbody.Slice(), ctxStmt)
+		decldepth--
+
 	case OIF:
 		ok |= ctxStmt
 		typecheckslice(n.Ninit.Slice(), ctxStmt)

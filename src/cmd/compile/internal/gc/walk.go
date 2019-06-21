@@ -253,6 +253,17 @@ func walkstmt(n *Node) *Node {
 		}
 		walkstmtlist(n.Nbody.Slice())
 
+	case OUNTIL:
+		if n.Left != nil {
+			walkstmtlist(n.Left.Ninit.Slice())
+			init := n.Left.Ninit
+			n.Left.Ninit.Set(nil)
+			n.Left = walkexpr(n.Left, &init)
+			n.Left = addinit(n.Left, init.Slice())
+		}
+
+		walkstmtlist(n.Nbody.Slice())
+
 	case OIF:
 		n.Left = walkexpr(n.Left, &n.Ninit)
 		walkstmtlist(n.Nbody.Slice())
