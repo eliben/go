@@ -10,6 +10,8 @@ import (
 	"cmd/internal/sys"
 	"encoding/binary"
 	"fmt"
+	"os"
+	"runtime/debug"
 	"strings"
 )
 
@@ -254,6 +256,9 @@ func walkstmt(n *Node) *Node {
 		walkstmtlist(n.Nbody.Slice())
 
 	case OUNTIL:
+		if len(os.Getenv("XDBG")) > 0 {
+			fmt.Fprintf(os.Stderr, "%s\n", debug.Stack())
+		}
 		if n.Left != nil {
 			walkstmtlist(n.Left.Ninit.Slice())
 			init := n.Left.Ninit
@@ -261,7 +266,6 @@ func walkstmt(n *Node) *Node {
 			n.Left = walkexpr(n.Left, &init)
 			n.Left = addinit(n.Left, init.Slice())
 		}
-
 		walkstmtlist(n.Nbody.Slice())
 
 	case OIF:
