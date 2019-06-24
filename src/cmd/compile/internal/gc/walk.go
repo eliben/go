@@ -263,8 +263,9 @@ func walkstmt(n *Node) *Node {
 			walkstmtlist(n.Left.Ninit.Slice())
 			init := n.Left.Ninit
 			n.Left.Ninit.Set(nil)
-			n.Left = walkexpr(n.Left, &init)
+			n.Left = nod(ONOT, walkexpr(n.Left, &init), nil)
 			n.Left = addinit(n.Left, init.Slice())
+			n.Op = OFOR
 		}
 		walkstmtlist(n.Nbody.Slice())
 
