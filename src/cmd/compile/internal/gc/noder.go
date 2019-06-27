@@ -51,6 +51,7 @@ func parseFiles(filenames []string) uint {
 
 			p.file, _ = syntax.Parse(base, f, p.error, p.pragma, syntax.CheckBranches) // errors are tracked via p.error
 			if len(os.Getenv("XDBG")) > 0 {
+				fmt.Printf("XDBG='%s'\n", os.Getenv("XDBG"))
 				fmt.Println("Dumping", p.file.PkgName)
 				syntax.Fdump(os.Stderr, p.file)
 			}
@@ -1159,8 +1160,8 @@ func (p *noder) forStmt(stmt *syntax.ForStmt) *Node {
 	return n
 }
 
-//untilStmt converts the concrete syntax tree node UntilStmt into an AST
-//node.
+// untilStmt converts the concrete syntax tree node UntilStmt into an AST
+// node.
 func (p *noder) untilStmt(stmt *syntax.UntilStmt) *Node {
 	p.openScope(stmt.Pos())
 	var n *Node
