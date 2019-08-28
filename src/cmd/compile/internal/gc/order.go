@@ -666,6 +666,14 @@ func (o *Order) stmt(n *Node) {
 		o.out = append(o.out, n)
 		o.cleanTemp(t)
 
+	case OUNTIL:
+		t := o.markTemp()
+		n.Left = o.exprInPlace(n.Left)
+		n.Nbody.Prepend(o.cleanTempNoPop(t)...)
+		orderBlock(&n.Nbody, o.free)
+		o.out = append(o.out, n)
+		o.cleanTemp(t)
+
 	// Clean temporaries from condition at
 	// beginning of both branches.
 	case OIF:

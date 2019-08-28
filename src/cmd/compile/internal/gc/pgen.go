@@ -15,6 +15,7 @@ import (
 	"fmt"
 	"internal/race"
 	"math/rand"
+	"os"
 	"sort"
 	"sync"
 	"time"
@@ -237,6 +238,10 @@ func compile(fn *Node) {
 	if nerrors != 0 {
 		return
 	}
+	if len(os.Getenv("XDBG")) > 0 {
+		fmt.Fprintf(os.Stderr, "fn after walk:\n%+v\n", fn)
+	}
+
 	if instrumenting {
 		instrument(fn)
 	}

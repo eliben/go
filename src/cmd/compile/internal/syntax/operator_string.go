@@ -4,6 +4,34 @@ package syntax
 
 import "strconv"
 
+func _() {
+	// An "invalid array index" compiler error signifies that the constant values have changed.
+	// Re-run the stringer command to generate them again.
+	var x [1]struct{}
+	_ = x[Def-1]
+	_ = x[Not-2]
+	_ = x[Recv-3]
+	_ = x[OrOr-4]
+	_ = x[AndAnd-5]
+	_ = x[Eql-6]
+	_ = x[Neq-7]
+	_ = x[Lss-8]
+	_ = x[Leq-9]
+	_ = x[Gtr-10]
+	_ = x[Geq-11]
+	_ = x[Add-12]
+	_ = x[Sub-13]
+	_ = x[Or-14]
+	_ = x[Xor-15]
+	_ = x[Mul-16]
+	_ = x[Div-17]
+	_ = x[Rem-18]
+	_ = x[And-19]
+	_ = x[AndNot-20]
+	_ = x[Shl-21]
+	_ = x[Shr-22]
+}
+
 const _Operator_name = ":!<-||&&==!=<<=>>=+-|^*/%&&^<<>>"
 
 var _Operator_index = [...]uint8{0, 1, 2, 4, 6, 8, 10, 12, 13, 15, 16, 18, 19, 20, 21, 22, 23, 24, 25, 26, 28, 30, 32}
