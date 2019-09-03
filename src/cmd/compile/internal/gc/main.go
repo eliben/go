@@ -538,6 +538,14 @@ func Main(archInit func(*Arch)) {
 		}
 	}
 
+	if len(os.Getenv("XDBG")) > 0 {
+		fmt.Println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@")
+		fmt.Println("After phase 1")
+		for _, n := range xtop {
+			fmt.Printf("%v: %+v\n", n.funcname(), n)
+		}
+	}
+
 	// Phase 2: Variable assignments.
 	//   To check interface assignments, depends on phase 1.
 
@@ -650,6 +658,14 @@ func Main(archInit func(*Arch)) {
 	// inserted.
 	if compiling_runtime {
 		nowritebarrierrecCheck = newNowritebarrierrecChecker()
+	}
+
+	if len(os.Getenv("XDBG")) > 0 {
+		fmt.Println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@")
+		fmt.Println("Before transformclosure")
+		for _, n := range xtop {
+			fmt.Printf("%v: %+v\n", n.funcname(), n)
+		}
 	}
 
 	// Phase 7: Transform closure bodies to properly reference captured variables.
