@@ -15,6 +15,7 @@ import (
 	"fmt"
 	"internal/race"
 	"math/rand"
+	"os"
 	"sort"
 	"sync"
 	"time"
@@ -231,6 +232,10 @@ func compile(fn *Node) {
 	order(fn)
 	if nerrors != 0 {
 		return
+	}
+
+	if len(os.Getenv("XDBG")) > 0 {
+		fmt.Printf("fn %v after order: %+v\n", fn.funcname(), fn)
 	}
 
 	walk(fn)
