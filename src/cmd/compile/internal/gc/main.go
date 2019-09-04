@@ -586,6 +586,14 @@ func Main(archInit func(*Arch)) {
 	checkMapKeys()
 	timings.AddEvent(fcount, "funcs")
 
+	if len(os.Getenv("XDBG")) > 0 {
+		fmt.Println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@")
+		fmt.Println("After typecheck (phase 3)")
+		for _, n := range xtop {
+			fmt.Printf("%v: %+v\n", n.funcname(), n)
+		}
+	}
+
 	if nsavederrors+nerrors != 0 {
 		errorexit()
 	}
