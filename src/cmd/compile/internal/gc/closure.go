@@ -8,6 +8,7 @@ import (
 	"cmd/compile/internal/syntax"
 	"cmd/compile/internal/types"
 	"fmt"
+	"os"
 )
 
 func (p *noder) funcLit(expr *syntax.FuncLit) *Node {
@@ -160,6 +161,11 @@ var capturevarscomplete bool
 // We use value capturing for values <= 128 bytes that are never reassigned
 // after capturing (effectively constant).
 func capturevars(xfunc *Node) {
+	if len(os.Getenv("XDBG")) > 0 {
+		fmt.Println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@")
+		fmt.Printf("capturevars for %v\n", xfunc.funcname())
+	}
+
 	lno := lineno
 	lineno = xfunc.Pos
 
@@ -167,6 +173,9 @@ func capturevars(xfunc *Node) {
 	cvars := xfunc.Func.Cvars.Slice()
 	out := cvars[:0]
 	for _, v := range cvars {
+		if len(os.Getenv("XDBG")) > 0 {
+			fmt.Println(v)
+		}
 		if v.Type == nil {
 			// If v.Type is nil, it means v looked like it
 			// was going to be used in the closure, but
@@ -184,6 +193,9 @@ func capturevars(xfunc *Node) {
 
 		outer := v.Name.Param.Outer
 		outermost := v.Name.Defn
+		if len(os.Getenv("XDBG")) > 0 {
+			fmt.Printf("  outer=%v  outermost=%v\n", outer, outermost)
+		}
 
 		// out parameters will be assigned to implicitly upon return.
 		if outermost.Class() != PPARAMOUT && !outermost.Addrtaken() && !outermost.Assigned() && v.Type.Width <= 128 {
